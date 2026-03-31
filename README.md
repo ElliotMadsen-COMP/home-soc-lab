@@ -4,7 +4,7 @@ This project simulates a small Security Operations Center environment running on
 The lab monitors network traffic and system logs to detect suspicious activity.
 
 ## Tools Used
-- Ubuntu Server
+- UFW (Firewall)
 - Snort (Network IDS)
 - TCPdump (Packet capture)
 - Python (log analysis scripts)
