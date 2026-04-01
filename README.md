@@ -55,5 +55,5 @@ Like I said in the beginning of this README, my goal is to gain hands-on experie
 The system could use some improvement. It would be nice to be able to get more information from the culprit than just their IP address.
 I would also like an automated way of checking whether a threat is actually present. This would be listed in the report and each instance would flagged as urgent or low priority.
 
-
+*All IP addresses shown in this project are from a private lab environment used for testing.*
 
