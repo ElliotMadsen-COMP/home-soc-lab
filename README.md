@@ -24,25 +24,34 @@ This script, written in Python, is used to capture any failed SSH login attempts
 
 The script analyzes the '/var/log/auth.log' file for failed attempts, if there is a pattern of 5 or more failed login attempts from the same
 IP address the IP address is flagged and added to 'soc_alerts.log'
-
 __________________________________________________________________________________________________________________________________________________
+
+### Brute Force Detection Code
+This screenshot shows the code implemented onto my Ubuntu server.
+
+Here I use a dictionary to stare key-value pairs. If an IP address has a failed login attempts it is added to the 'failed attempts' dictionary.
+If the value exceeds 4 failed attempts the IP address is listed in the report.
 
 ![Brute Force Code](screenshots/ssh_bruteforce_detector_code.png)
 
-The screenshot above shows the code implemented onto my Ubuntu server.
+### Failed Entry and Failed Entry Detection
+In the following screenshot I purposely used the incorrect password to SSH into my Ubuntu Server.
 
 ![Brute Force Code](screenshots/wrong_password_entry.png)
 
+Here you can see my fialed attempts were logged along with another possilbe brute force attack from another test I ran
+
 ![Brute Force Detected](screenshots/brute_force_detected.png)
 
-Above you can see an example of incorrect password entry and two instances of possible brute force activity reported.
+### Automating the Brute Force Detection Script
+Finally, I used crontab to automate this system. Now, the script will run everyday at 2am and print results into soc_alerts.log.
 
-![Brute Force Detected](screenshots/automating_brute_force_detection.png)
+![Brute Force Detected](screenshots/automating_brute_force_detector.png)
 
-Finally, above I used crontab to automate this system. Now, the script will run everyday at 2am and print results into soc_alerts.log.
-
-__________________________________________________________________________________________________________________________________________________
-
+### What I Learned
 From this activity I have learned how to read log activity, produce a report, and log the report all automatically.
 Like I said in at the beginning of this README, my goal is to gain hands-on experience and come into the cyber world prepared for whatever I am asked.
+__________________________________________________________________________________________________________________________________________________
+
+
 
