@@ -25,6 +25,7 @@ This script, written in Python, is used to capture any failed SSH login attempts
 The script analyzes the '/var/log/auth.log' file for failed attempts, if there is a pattern of 5 or more failed login attempts from the same
 IP address the IP address is flagged and added to 'soc_alerts.log'
 
+________________________________________________________________
 
 ### Brute Force Detection Code
 This screenshot shows the code implemented onto my Ubuntu server.
