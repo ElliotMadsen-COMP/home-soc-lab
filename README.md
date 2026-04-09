@@ -10,10 +10,11 @@ The lab monitors network traffic and system logs to detect suspicious activity.
 - Python (log analysis scripts)
 
 ## Project Goal
-The goal of this project is to gain practical experience in cyber security
+The goal of this project is to gain practical experience in networking and cyber security
 
 Through this project I have gained hands-on experience in:
 
+- protocol knowledge
 - intrusion detection
 - log analysis
 - attack simulation
