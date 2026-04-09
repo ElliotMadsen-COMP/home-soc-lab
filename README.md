@@ -19,14 +19,14 @@ Through this project I have gained hands-on experience in:
 - log analysis
 - attack simulation
 - automated alert generation
+________________________________________________________________
 
-## Scripts - SSH Brute Force Detector
+## SSH Brute Force Detector
 This script, written in Python, is used to capture any failed SSH login attempts that could be interpreted as brute force attacks.
 
 The script analyzes the '/var/log/auth.log' file for failed attempts, if there is a pattern of 5 or more failed login attempts from the same
 IP address the IP address is flagged and added to 'soc_alerts.log'
 
-________________________________________________________________
 
 ### Brute Force Detection Code
 This screenshot shows the code implemented onto my Ubuntu server.
