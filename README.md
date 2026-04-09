@@ -1,4 +1,4 @@
-# Home SOC Lab
+# Network and Security Lab
 
 This project simulates a small Security and Network Operations Center environment running on my Ubuntu server at home. 
 The lab monitors network traffic and system logs to detect suspicious activity.
