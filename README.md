@@ -29,9 +29,51 @@ To enable HTTPS using TLS, I first configured port forwarding on my router to di
 This allowed Certbot to perform domain validation which verifies that I control the domain. Once validated, Certbot issued a TLS certificate from Let’s Encrypt. 
 This certificate is required to enable HTTPS, which encrypts communication between clients and the web server.
 
-In the screenshot below you can see the rules I put on my router in order to forward any HTTP traffic from my public IP address to my Ubuntu server.
+In the screenshot below you can see the port forwarding rules I configured on my router to direct incoming HTTP traffic (port 80) from the internet to my Ubuntu server.
 
 ![port 80 forwarding](screenshots/http_port_forwarding_80_rule.png)
+
+The reason we use port 80 (HTTP) rather than port 443 (HTTPS) is because Certbot utilizes HTTP. This allows Let's Encrypt to verify I have control of my domain before
+issuing a TLS certificate
+
+### Getting Certificate
+Now that Let's Encrypt has a path to my server through port 80, we can now obtain the certificate from Certbot. Thus allowing the use HTTPS and encrypt web traffic going to and from
+the web server.
+
+Why do I need Certbot? Certbot provides a TLS certificate from Let's Encrypt, which proves I control my servers domain. The certificate also allows my web server to use HTTPS.
+
+To do this I first have to install Certbot and then run a simple command: *sudo certbot --apache*. This command requests a TLS certificate from Let's Encrypt, verifies domain ownership, 
+and automatically configures Apache to use HTTPS.
+
+However, I experienced my first error when running this command:
+
+"The Certificate Authority failed to verify the temporary Apache configuration changes made by Certbot. 
+Ensure that the listed domains point to this Apache server and that it is accessible from the internet."
+
+This error essentially tells me Let's Encrypt cannot find my domain. But why? I just configured the port forwarding and my domain works in a browser. I could even access the site though its IP address.
+
+To troubleshoot this issue I used 'nslookup' following my domain name.
+
+![Incorrect nslookup](screenshots/wrong_ip_configured_for_website.png)
+
+Running this command instantly confirmed my problem. There must be an issue with my domain's IP address configuration.
+
+After going over everything I'd done so far I finally realized, the IP address I set my domain name under was my private IP address rather than my public IP address.
+This meant that any external traffic from the internet couldn't find my web server since private IP addresses are notaccessible from out of a LAN.
+So, now I know that Certbot cannot validate my domain because it could not connet to my web server over port 80.
+
+I use the command: *curl -4 ifconfig.me* to get my public IP address and set that as my web servers IP address. I then run *sudo certbot --apache* again.
+
+![Cert given](screenshots/cert_given_for_webserver.png)
+
+Now that we successfully have our certificate, we have proved we are the owner of the domain and can now use HTTPS to encrypt any traffic going to and from the web server!
+
+Not so fast!
+
+We now have an issue reaching the website. How could obtaining the certificate affect the connection to the website?
+
+
+
 
 ________________________________________________________________
 
