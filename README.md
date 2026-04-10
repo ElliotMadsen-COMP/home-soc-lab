@@ -32,14 +32,13 @@ This certificate is required to enable HTTPS, which encrypts communication betwe
 
 In the screenshot below you can see the port forwarding rules I configured on my router to direct incoming HTTP traffic (port 80) from the internet to my Ubuntu server.
 
-![port 80 forwarding](screenshots/http_port_forwarding_80_rule.png)
+![port 80 forwarding](screenshots/http_port_forwarding_http_rule.png)
 
 The reason we use port 80 (HTTP) rather than port 443 (HTTPS) is because Certbot utilizes HTTP. This allows Let's Encrypt to verify I have control of my domain before
 issuing a TLS certificate
 
 ### Getting the Certificate
-Now that Let's Encrypt has a path to my server through port 80, we can obtain the certificate from Certbot. Thus allowing the use of HTTPS and encrypt web traffic going to and from
-the web server.
+Now that Let's Encrypt has a path to my server through port 80, we can obtain the certificate from Certbot.
 
 Why do I need Certbot? Certbot provides a TLS certificate from Let's Encrypt, which proves I control my servers domain. The certificate also allows my web server to use HTTPS.
 
@@ -47,47 +46,49 @@ To do this I first have to install Certbot and then run a simple command: *sudo 
 and automatically configures Apache to use HTTPS.
 
 ### Troubleshooting Certificate Error
-However, I experienced my first error when running this command:
+However, I experienced my first error when running this command.
 
 "The Certificate Authority failed to verify the temporary Apache configuration changes made by Certbot. 
 Ensure that the listed domains point to this Apache server and that it is accessible from the internet."
 
-This error essentially tells me Let's Encrypt cannot find my domain. But why? I just configured the port forwarding and my domain works in a browser. I could even access the site through its IP address.
+This error tells me Let's Encrypt cannot find my domain. But why? I just configured the port forwarding and my domain works in a browser. I could even access the site through its IP address.
 
-To troubleshoot this issue I used 'nslookup' following my domain name.
+To troubleshoot this issue I used *nslookup http://wobetsworld.duckdns.org*
 
 ![Incorrect nslookup](screenshots/wrong_ip_configured_for_website.png)
 
-Running this command instantly confirmed my problem. There must be an issue with my domain's IP address configuration.
+Running this command confirmed my problem. There must be an issue with my domain's IP address configuration since nslookup cannot find the URL.
 
 After going over everything I'd done so far I finally realized, the IP address I set my domain name under was my private IP address rather than my public IP address.
-This meant that any external traffic from the internet couldn't find my web server since private IP addresses are not accessible from out of a LAN.
+This meant that any external traffic from the internet couldn't find my web server since private IP addresses are not accessible from external networks.
 So, now I know that Certbot cannot validate my domain because it could not connect to my web server over port 80.
 
 I use the command: *curl -4 ifconfig.me* to get my public IP address and set that as my web servers IP address. I then run *sudo certbot --apache* again.
 
 ![Cert given](screenshots/cert_given_for_webserver.png)
 
-### Troubleshooting Error Reaching the Web Server
 Now that we successfully have our certificate, we have proven we control the domain allowing the use of HTTPS to encrypt traffic between the client and the web server.
 
+### Troubleshooting Error Reaching the Web Server
 Not so fast!
 
 We now have an issue reaching the website. How could obtaining the certificate affect connectivity?
 
-Lets test again with the command *nslookup domain_name*.
+Lets test again with the command *nslookup http://wobetsworld.duckdns.org*.
 
 ![correct nslookup](screenshots/nslookup_configured_with_correct_ip.png)
 
 From this we can tell DNS is working properly, so why cant we access it?
 
 What has changed between having the certificate and not having the certificate? Of course! The port we are using has changed.
-Originally we were using HTTP (port 80) because we HAD to since we did not have to proper certificates to use HTTPS (port 443).
-But now we HAVE to use HTTPS since we are enforcing it.
+Originally we were using HTTP (port 80) because we had to since we did not have to proper certificates to use HTTPS (port 443).
+But now we must to use HTTPS since we are enforcing it.
 
 First, lets fix the port forwarding rules on our router to include port 443.
 
 ![port_forwarding_rules](screenshots/port_forwarding_rules.png)
+
+Now, external traffic through port 443 on my router will be forwarded to my web server.
 
 I also know I must change the configurations on my UFW to allow port 443.
 
@@ -105,7 +106,7 @@ To confirm my web server is using HTTPS and the TLS handshake was successful I c
 
 ### What I Learned
 From this project, I learned how to deploy and secure a web server using HTTPS and TLS. 
-I gained hands-on experience with DNS, port forwarding, firewall configuration, and using Certbot to obtain and apply a TLS certificate.
+I gained hands-on experience with DNS, port forwarding, firewall configuration, and using obtaining and appling a TLS certificate.
 
 ________________________________________________________________
 
