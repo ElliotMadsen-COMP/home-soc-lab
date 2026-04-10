@@ -22,7 +22,8 @@ Through this project I have gained hands-on experience in:
 ________________________________________________________________
 
 ## TLS/HTTPS Web Server
-*Overview*
+I built and secured a web server on Ubuntu using Apache and HTTPS with TLS certificates. 
+I configured networking components like DNS, port forwarding, and firewall rules to make the server accessible from the internet.
 
 ### Port Forwarding
 To enable HTTPS using TLS, I first configured port forwarding on my router to direct incoming HTTP traffic (port 80) from my public IP address to my Ubuntu server.
@@ -45,12 +46,13 @@ Why do I need Certbot? Certbot provides a TLS certificate from Let's Encrypt, wh
 To do this I first have to install Certbot and then run a simple command: *sudo certbot --apache*. This command requests a TLS certificate from Let's Encrypt, verifies domain ownership, 
 and automatically configures Apache to use HTTPS.
 
+### Troubleshooting Certificate Error
 However, I experienced my first error when running this command:
 
 "The Certificate Authority failed to verify the temporary Apache configuration changes made by Certbot. 
 Ensure that the listed domains point to this Apache server and that it is accessible from the internet."
 
-This error essentially tells me Let's Encrypt cannot find my domain. But why? I just configured the port forwarding and my domain works in a browser. I could even access the site though its IP address.
+This error essentially tells me Let's Encrypt cannot find my domain. But why? I just configured the port forwarding and my domain works in a browser. I could even access the site through its IP address.
 
 To troubleshoot this issue I used 'nslookup' following my domain name.
 
@@ -59,21 +61,51 @@ To troubleshoot this issue I used 'nslookup' following my domain name.
 Running this command instantly confirmed my problem. There must be an issue with my domain's IP address configuration.
 
 After going over everything I'd done so far I finally realized, the IP address I set my domain name under was my private IP address rather than my public IP address.
-This meant that any external traffic from the internet couldn't find my web server since private IP addresses are notaccessible from out of a LAN.
-So, now I know that Certbot cannot validate my domain because it could not connet to my web server over port 80.
+This meant that any external traffic from the internet couldn't find my web server since private IP addresses are not accessible from out of a LAN.
+So, now I know that Certbot cannot validate my domain because it could not connect to my web server over port 80.
 
 I use the command: *curl -4 ifconfig.me* to get my public IP address and set that as my web servers IP address. I then run *sudo certbot --apache* again.
 
 ![Cert given](screenshots/cert_given_for_webserver.png)
 
-Now that we successfully have our certificate, we have proved we are the owner of the domain and can now use HTTPS to encrypt any traffic going to and from the web server!
+### Troubleshooting Error Reaching the Web Server
+Now that we successfully have our certificate, we have proven we control the domain allowing the use of HTTPS to encrypt traffic between the client and the web server.
 
 Not so fast!
 
-We now have an issue reaching the website. How could obtaining the certificate affect the connection to the website?
+We now have an issue reaching the website. How could obtaining the certificate affect connectivity?
 
+Lets test again with the command *nslookup domain_name*.
 
+![correct nslookup](screenshots/nslookup_configured_with_correct_ip.png)
 
+From this we can tell DNS is working properly, so why cant we access it?
+
+What has changed between having the certificate and not having the certificate? Of course! The port we are using has changed.
+Originally we were using HTTP (port 80) because we HAD to since we did not have to proper certificates to use HTTPS (port 443).
+But now we HAVE to use HTTPS since we are enforcing it.
+
+First, lets fix the port forwarding rules on our router to include port 443.
+
+![port_forwarding_rules](screenshots/port_forwarding_rules.png)
+
+I also know I must change the configurations on my UFW to allow port 443.
+
+![firewall rule change](screenshots/ufw_443_allowed.png)
+
+We can now try to access the web server once again.
+
+It works! I am connected to my default Apache web server via HTTPS! I can now see my certificate.
+
+![certificate](screenshots/certificate_webserver.png)
+
+To confirm my web server is using HTTPS and the TLS handshake was successful I can run *curl -I https://wobetsworld.duckdns.org*
+
+![working web server](screenshots/webserver_working_confirmation.png)
+
+### What I Learned
+From this project, I learned how to deploy and secure a web server using HTTPS and TLS. 
+I gained hands-on experience with DNS, port forwarding, firewall configuration, and using Certbot to obtain and apply a TLS certificate.
 
 ________________________________________________________________
 
@@ -113,5 +145,4 @@ Like I said in the beginning of this README, my goal is to gain hands-on experie
 The system could use some improvement. It would be nice to be able to get more information from the culprit than just their IP address.
 I would also like an automated way of checking whether a threat is actually present. This would be listed in the report and each instance would flagged as urgent or low priority.
 
-*All IP addresses shown in this project are from a private lab environment used for testing.*
-
+________________________________________________________________
