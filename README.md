@@ -32,7 +32,7 @@ This certificate is required to enable HTTPS, which encrypts communication betwe
 
 In the screenshot below you can see the port forwarding rules I configured on my router to direct incoming HTTP traffic (port 80) from the internet to my Ubuntu server.
 
-![port 80 forwarding](screenshots/http_port_forwarding_http_rule.png)
+![http forwarding](screenshots/http_port_forwarding_http_rule.png)
 
 The reason we use port 80 (HTTP) rather than port 443 (HTTPS) is because Certbot utilizes HTTP. This allows Let's Encrypt to verify I have control of my domain before
 issuing a TLS certificate
@@ -55,7 +55,7 @@ This error tells me Let's Encrypt cannot find my domain. But why? I just configu
 
 To troubleshoot this issue I used *nslookup http://wobetsworld.duckdns.org*
 
-![Incorrect nslookup](screenshots/wrong_ip_configured_for_website.png)
+![incorrect nslookup](screenshots/wrong_ip_configured_for_website.png)
 
 Running this command confirmed my problem. There must be an issue with my domain's IP address configuration since nslookup cannot find the URL.
 
@@ -65,7 +65,7 @@ So, now I know that Certbot cannot validate my domain because it could not conne
 
 I use the command: *curl -4 ifconfig.me* to get my public IP address and set that as my web servers IP address. I then run *sudo certbot --apache* again.
 
-![Cert given](screenshots/cert_given_for_webserver.png)
+![cert given](screenshots/cert_given_for_webserver.png)
 
 Now that we successfully have our certificate, we have proven we control the domain allowing the use of HTTPS to encrypt traffic between the client and the web server.
 
@@ -86,7 +86,7 @@ But now we must to use HTTPS since we are enforcing it.
 
 First, lets fix the port forwarding rules on our router to include port 443.
 
-![port_forwarding_rules](screenshots/port_forwarding_rules.png)
+![port forwarding rules](screenshots/port_forwarding_rules.png)
 
 Now, external traffic through port 443 on my router will be forwarded to my web server.
 
