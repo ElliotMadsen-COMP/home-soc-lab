@@ -55,7 +55,7 @@ This error tells me Let's Encrypt cannot find my domain. But why? I just configu
 
 To troubleshoot this issue I used *nslookup http://wobetsworld.duckdns.org*
 
-![incorrect nslookup](screenshots/wrong_ip_configured_for_website.png)
+![incorrect nslookup](screenshots/wrong_ip_configured_for_webserver.png)
 
 Running this command confirmed my problem. There must be an issue with my domain's IP address configuration since nslookup cannot find the URL.
 
