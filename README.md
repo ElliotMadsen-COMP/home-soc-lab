@@ -31,7 +31,7 @@ This certificate is required to enable HTTPS, which encrypts communication betwe
 
 In the screenshot below you can see the rules I put on my router in order to forward any HTTP traffic from my public IP address to my Ubuntu server.
 
-
+![port 80 forwarding](screenshots/http_port_forwarding_80_rule.png)
 
 ________________________________________________________________
 
