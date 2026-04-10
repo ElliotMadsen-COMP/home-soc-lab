@@ -53,7 +53,7 @@ Ensure that the listed domains point to this Apache server and that it is access
 
 This error tells me Let's Encrypt cannot find my domain. But why? I just configured the port forwarding and my domain works in a browser. I could even access the site through its IP address.
 
-To troubleshoot this issue I used *nslookup http://wobetsworld.duckdns.org*
+To troubleshoot this issue I used *nslookup domain_name*
 
 ![incorrect nslookup](screenshots/wrong_ip_configured_for_webserver.png)
 
@@ -74,7 +74,7 @@ Not so fast!
 
 We now have an issue reaching the website. How could obtaining the certificate affect connectivity?
 
-Lets test again with the command *nslookup http://wobetsworld.duckdns.org*.
+Lets test again with the command *nslookup domain_name*.
 
 ![correct nslookup](screenshots/nslookup_configured_with_correct_ip.png)
 
