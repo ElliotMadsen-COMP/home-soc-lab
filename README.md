@@ -92,7 +92,7 @@ Now, external traffic through port 443 on my router will be forwarded to my web 
 
 I also know I must change the configurations on my UFW to allow port 443.
 
-![firewall rule change](screenshots/ufw_443_allowed.png)
+![firewall rule change](screenshots/ufw_https_allowed.png)
 
 We can now try to access the web server once again.
 
@@ -100,7 +100,7 @@ It works! I am connected to my default Apache web server via HTTPS! I can now se
 
 ![certificate](screenshots/certificate_webserver.png)
 
-To confirm my web server is using HTTPS and the TLS handshake was successful I can run *curl -I https://wobetsworld.duckdns.org*
+To confirm my web server is using HTTPS and the TLS handshake was successful I can run *curl -I domain_name*
 
 ![working web server](screenshots/webserver_working_confirmation.png)
 
