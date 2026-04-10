@@ -21,6 +21,20 @@ Through this project I have gained hands-on experience in:
 - automated alert generation
 ________________________________________________________________
 
+## TLS/HTTPS Web Server
+*Overview*
+
+### Port Forwarding
+To enable HTTPS using TLS, I first configured port forwarding on my router to direct incoming HTTP traffic (port 80) from my public IP address to my Ubuntu server.
+This allowed Certbot to perform domain validation which verifies that I control the domain. Once validated, Certbot issued a TLS certificate from Let’s Encrypt. 
+This certificate is required to enable HTTPS, which encrypts communication between clients and the web server.
+
+In the screenshot below you can see the rules I put on my router in order to forward any HTTP traffic from my public IP address to my Ubuntu server.
+
+
+
+________________________________________________________________
+
 ## SSH Brute Force Detector
 This script, written in Python, is used to capture any failed SSH login attempts that could be interpreted as brute force attacks.
 
