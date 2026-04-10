@@ -92,7 +92,7 @@ Now, external traffic through port 443 on my router will be forwarded to my web 
 
 I also know I must change the configurations on my UFW to allow port 443.
 
-![firewall rule change](screenshots/ufw_https_allowed.png)
+![firewall rule change](screenshots/firewall_https_allowed.png)
 
 We can now try to access the web server once again.
 
