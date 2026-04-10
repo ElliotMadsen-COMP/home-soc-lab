@@ -35,7 +35,7 @@ In the screenshot below you can see the port forwarding rules I configured on my
 ![http forwarding](screenshots/http_port_forwarding_http_rule.png)
 
 The reason we use port 80 (HTTP) rather than port 443 (HTTPS) is because Certbot utilizes HTTP. This allows Let's Encrypt to verify I have control of my domain before
-issuing a TLS certificate
+issuing a TLS certificate.
 
 ### Getting the Certificate
 Now that Let's Encrypt has a path to my server through port 80, we can obtain the certificate from Certbot.
